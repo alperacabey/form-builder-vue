@@ -11,6 +11,7 @@
   "dependencies": {
     "core-js": "^3.8.3",
     "miragejs": "^0.1.43",
+    "uuid": "^8.3.2",
     "vue": "^3.2.13",
     "vue-axios": "^3.4.1",
     "vue-property-decorator": "^9.1.2",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/jest": "^27.0.1",
+    "@types/uuid": "^8.3.4",
     "@types/vuedraggable": "^2.24.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",

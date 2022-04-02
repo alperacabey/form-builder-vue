@@ -1,5 +1,4 @@
-
-type Type= 'form' | 'page' | 'question' | 'section'
+export type Type= 'form' | 'page' | 'question' | 'section'
 
 export class Item {
   title: string

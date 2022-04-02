@@ -9,18 +9,19 @@
         <button 
         class="btn-secondary mr-2"
         :disabled="loading"
-        @click="() => {}">
+        @click="() => addNewItem('section')">
           + Section
         </button>
         <button 
         class="btn-secondary"
         :disabled="loading"
-        @click="() => {}">
+        @click="() => addNewItem('question')">
           + Question
         </button>  
         </div>
+        <div v-if="elements.length > 0">
         <div class="mt-4 shadow-card rounded-lg bg-white px-4">
-          <nested-draggable v-model="elements" @clicked="(uuid) => selected = uuid"/>
+          <nested-draggable v-model="elements" @clicked="(uuid) => selected = uuid" :selectedItem="selected" @handleDelete="handleDelete" :disabled="loading"/>
         </div>
         <button 
         type="submit"
@@ -29,6 +30,7 @@
         @click="onSubmit">
           <span v-if="loading" class="loader right-4" />Submit
         </button>
+        </div>
       </div>
     </div>
   </div>
@@ -39,7 +41,7 @@
 import { defineComponent, reactive, toRefs, computed, onMounted , WritableComputedRef} from 'vue'
 import { useStore,  } from '@/store'
 import { ActionTypes } from '@/store/actions'
-import { Item, ResponseModel } from '@/store/state'
+import { Item, Type } from '@/store/state'
 import { MutationType } from '@/store/mutations'
 
 // import draggable from "vuedraggable";
@@ -67,7 +69,7 @@ export default defineComponent({
       },
       set(value): void {
         if(state.sended) state.sended = false;
-        store.dispatch(ActionTypes.UpdateFormItems, value)
+        store.commit(MutationType.UpdateFormItems, value)
       },
     });
  
@@ -79,12 +81,21 @@ export default defineComponent({
       state.sended = true
       store.dispatch(ActionTypes.SubmitForm, store.getters.getResponseModel)
     }
+
+    const addNewItem = (type: Type) => {
+      store.commit(MutationType.AddItem, type)
+    }
+
+    const handleDelete = (uuid: string)=>{
+      store.commit(MutationType.DeleteItem, uuid)
+    }
+
     onMounted(() => {
       fetchForm() 
-      });
-    
-    return {...toRefs(state), onSubmit, model, elements, loading }
-  }
+    });
+
+    return {...toRefs(state), onSubmit, addNewItem, handleDelete, model, elements, loading }
+  },
 })
 </script>
 
