@@ -83,10 +83,12 @@ export default defineComponent({
     }
 
     const addNewItem = (type: Type) => {
+      state.sended = false
       store.commit(MutationType.AddItem, type)
     }
 
     const handleDelete = (uuid: string)=>{
+      state.sended = false
       store.commit(MutationType.DeleteItem, uuid)
     }
 
