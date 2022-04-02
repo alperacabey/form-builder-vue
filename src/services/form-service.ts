@@ -3,7 +3,6 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 interface IFormService {
   api: AxiosInstance;
-  getForm: ()=> Promise<AxiosResponse>;
 }
 
 class FormService implements IFormService {
@@ -14,9 +13,12 @@ class FormService implements IFormService {
     },
   })
 
+  getInitialForm() {
+    return this.api.get(`/api/form-builder`);
+  }
 
-  getForm() {
-    return this.api.get('/api/form');
+  getForm(uuid : string) {
+    return this.api.get(`/api/form?uuid=${uuid}`);
   }
 
   postForm(params : ResponseModel){

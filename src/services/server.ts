@@ -10,21 +10,22 @@ export function makeServer({ environment = 'development' } = {}) {
 
       this.namespace = 'api'
 
-      this.get('/form', schema => {
+      this.get('/form-builder', schema => {
         return new Response(200, {}, mockResponse)
       })
 
-      this.get('/form/:id', schema => {
-        return new Response(200, {}, mockResponse)
+      this.get('/form', (schema, request) => {
+        if(request.queryParams.uuid === mockResponse.checklist.form.uuid)
+          return new Response(200, {}, mockResponse)
+        else return new Response(404, {}, {message:'Not Found'})
       })
 
       this.post('/form', (schema, request) => {
-        const headers = {}
         const checklist = JSON.parse(request.requestBody)
         db.push(checklist)
         return new Response(
           200,
-          headers,
+          {},
           { success:true, message: `Successfully added to ${mockResponse.checklist.checklist_title} checklist`}
         )
       }, { timing: 3000 })

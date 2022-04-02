@@ -10,6 +10,7 @@ const toast = useToast()
 
 export enum ActionTypes {
   FetchInitialForm = 'FETCH_INITIAL_FORM',
+  FetchForm = 'FETCH_FORM',
   UpdateFormItems = 'UPDATE_FORM_ITEMS',
   SubmitForm = 'SUBMIT_FORM',
 }
@@ -22,6 +23,7 @@ type ActionAugments = Omit<ActionContext<State, State>, 'commit'> & {
   }
   export type Actions = {
     [ActionTypes.FetchInitialForm](context: ActionAugments): void
+    [ActionTypes.FetchForm](context: ActionAugments, uuid: string): void
     [ActionTypes.UpdateFormItems](context: ActionAugments, payload : Array<Item>): void
     [ActionTypes.SubmitForm](context: ActionAugments, payload : ResponseModel): void
  }
@@ -29,16 +31,38 @@ type ActionAugments = Omit<ActionContext<State, State>, 'commit'> & {
 export const actions: ActionTree<State, State> & Actions = {
   async [ActionTypes.FetchInitialForm]({ commit }) {
     commit(MutationType.SetLoading, true)
-    const response : any = await fetch('/api/form',{method:'get'});
-    console.log('FetchInitialForm' ,JSON.parse(response._bodyInit))
-    commit(MutationType.SetForm, JSON.parse(response._bodyInit))
+    try{
+      const response : AxiosResponse = await formService.getInitialForm();
+      commit(MutationType.SetForm, JSON.parse(response.data))
+    }catch{
+      toast.error("Unexpected error!")
+    }
     commit(MutationType.SetLoading, false)
+  },
+  async [ActionTypes.FetchForm]({ commit }, uuid) {
+    commit(MutationType.SetLoading, true)
+    try{
+      const response : AxiosResponse = await formService.getForm(uuid);
+      if(response.status === 200){
+        commit(MutationType.SetForm, response.data)
+        commit(MutationType.SetLoading, false)
+      }
+    }catch{
+      toast.error("Form not found!")
+    }
+    commit(MutationType.SetLoading, false)      
+      
   },
   async [ActionTypes.SubmitForm]({ commit }, payload) {
     commit(MutationType.SetLoading, true)
-    const response : AxiosResponse<any,any>= await formService.postForm(payload);
-    if(response.status === 200)
-      toast.success("Form submitted successfully!")
+    try{
+      const response : AxiosResponse = await formService.postForm(payload);
+      if(response.status === 200)
+        toast.success("Form submitted successfully!")
+    }catch{
+      toast.error("Unexpected error!")
+    }
+    
     commit(MutationType.SetLoading, false)
   },
   [ActionTypes.UpdateFormItems]({ commit }, payload) {

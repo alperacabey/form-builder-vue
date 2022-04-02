@@ -1,7 +1,4 @@
-
-
 <template>
- <!-- @click="()=> $emit('clicked', element.uuid)" -->
   <draggable
     v-bind="dragOptions"
     :value="value"
@@ -62,7 +59,6 @@ export default defineComponent({
     })
 
     const emitter = (value) => {
-      console.log('emittr')
       emit("input", value);
     }
 
@@ -77,17 +73,9 @@ export default defineComponent({
       })
     )
 
-    const move = (title) => {
-    console.log('deleted item =' , title)
-}
     const realValue = computed(()=> (props.value ? props.value.map(item=> new Item(item)) : props.list.map(item=> new Item(item))))
 
-    watch(state, (currentValue, oldValue) => {
-      console.log(currentValue.selected)
-      
-    });
-
-    return { ...toRefs(state), emitter, move, dragOptions , realValue}
+    return { ...toRefs(state), emitter, dragOptions , realValue}
   }
 });
 </script>
