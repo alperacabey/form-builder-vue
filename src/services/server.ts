@@ -14,6 +14,10 @@ export function makeServer({ environment = 'development' } = {}) {
         return new Response(200, {}, mockResponse)
       })
 
+      this.get('/form/:id', schema => {
+        return new Response(200, {}, mockResponse)
+      })
+
       this.post('/form', (schema, request) => {
         const headers = {}
         const checklist = JSON.parse(request.requestBody)

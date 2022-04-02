@@ -7,10 +7,15 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/FormBuilder.vue'),
   },
   {
-    path: '/form',
+    path: '/form/:id',
     name: 'FormConductor',
     component: () => import('../views/FormConductor.vue'),
   },
+  { 
+    path: '/:pathMatch(.*)*', 
+    name:'NotFound',
+    component: () => import('../views/NotFound.vue')
+  }
 ];
 
 const router = createRouter({
