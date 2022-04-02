@@ -1,0 +1,61 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn-primary {
+    @apply relative bg-green-dark text-white hover:bg-green disabled:bg-gray-light motion-safe:hover:-translate-x-0.5 motion-safe:transition px-5 py-2 shadow-active rounded-lg w-full;
+  }
+
+  .btn-secondary {
+    @apply relative bg-green-dark text-white hover:bg-gray-dark disabled:bg-gray-light px-5 py-1 rounded-lg;
+  }
+}
+
+body {
+  font-family: "Roboto";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+  @apply text-2xl;
+}
+h2 {
+  @apply text-xl;
+}
+h3 {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+} 
+
+span, p {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.loader {
+  border: 3px solid #f3f3f3;
+  animation: spin 1s linear infinite;
+  border-top: 3px solid #777777;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  position:absolute;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.wrapper {
+  height: calc(100vh - 120px);  
+}

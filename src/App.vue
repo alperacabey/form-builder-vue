@@ -1,10 +1,19 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <nav class="bg-gray-dark p-2.5 shadow-header absolute w-full sticky top-0">
+    <router-link to="/form-builder">Form Builder</router-link> |
+    <router-link to="/form">Form Conductor</router-link>
   </nav>
   <router-view/>
 </template>
+
+<script lang="ts">
+import {defineComponent} from 'vue'
+export default defineComponent({
+  name: 'App',
+  components: {
+  },
+})
+</script>
 
 <style lang="scss">
 #app {
@@ -12,7 +21,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  height: calc(100vh - 44px);
 }
 
 nav {
@@ -23,7 +32,7 @@ nav {
     color: #2c3e50;
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: #4AD862;
     }
   }
 }
