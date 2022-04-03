@@ -1,21 +1,21 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/form-builder',
-    name: 'FormBuilder',
-    component: () => import('../views/FormBuilder.vue'),
+    path: "/form-builder",
+    name: "FormBuilder",
+    component: () => import("../views/FormBuilder.vue"),
   },
   {
-    path: '/form/:id',
-    name: 'FormConductor',
-    component: () => import('../views/FormConductor.vue'),
+    path: "/form/:id",
+    name: "FormConductor",
+    component: () => import("../views/FormConductor.vue"),
   },
-  { 
-    path: '/:pathMatch(.*)*', 
-    name:'NotFound',
-    component: () => import('../views/NotFound.vue')
-  }
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: () => import("../views/NotFound.vue"),
+  },
 ];
 
 const router = createRouter({
