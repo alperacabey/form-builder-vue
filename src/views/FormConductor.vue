@@ -30,41 +30,25 @@ import {
   defineComponent,
   reactive,
   toRefs,
-  computed,
   onMounted,
-  WritableComputedRef,
 } from "vue";
 import { useRoute } from "vue-router";
-import { useStore } from "@/store";
 import { ActionTypes } from "@/store/actions";
-import { Item } from "@/store/state";
-import { MutationType } from "@/store/mutations";
 import ItemWrapper from "@/components/form/itemWrapper.vue";
+import { useForm } from "@/hooks";
+import { useStore } from "@/store";
 
 export default defineComponent({
   name: "FormConductor",
-  props: {
-    // id: { type: Number, required: true }
-  },
   components: {
     ItemWrapper,
   },
   setup() {
-    const route = useRoute();
     const store = useStore();
+    const route = useRoute();
+    const { model, loading, elements } = useForm();
     const state = reactive({
       sended: false,
-    });
-    const model = computed(() => store.getters.getResponseModel);
-    const loading = computed(() => store.getters.loading);
-    const elements: WritableComputedRef<Array<Item>> = computed({
-      get(): Array<Item> {
-        return store.getters.getFormItems || [];
-      },
-      set(value): void {
-        if (state.sended) state.sended = false;
-        store.commit(MutationType.UpdateFormItems, value);
-      },
     });
 
     const fetchForm = () => {
@@ -73,7 +57,10 @@ export default defineComponent({
 
     const onSubmit = () => {
       state.sended = true;
-      store.dispatch(ActionTypes.SubmitQuestionnaire, store.getters.getResponseModel);
+      store.dispatch(
+        ActionTypes.SubmitQuestionnaire,
+        store.getters.getResponseModel
+      );
     };
 
     onMounted(() => {

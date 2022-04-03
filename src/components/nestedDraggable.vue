@@ -8,7 +8,7 @@
     <template #item="{ element }">
       <div :class="['item-group']" :key="element.uuid">
         <div
-          :class="['item', { 'bg-gray-light': selectedItem === element.uuid }]"
+          :class="['item', { 'bg-gray-light': selected === element.uuid }]"
         >
           <span :class="[{ 'font-semibold': element.type === 'section' }]">{{
             element.title
@@ -52,11 +52,6 @@ export default defineComponent({
     list: {
       required: false,
       type: Array,
-      default: null,
-    },
-    selectedItem: {
-      require: false,
-      type: String,
       default: null,
     },
     disabled: {

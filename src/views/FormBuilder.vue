@@ -25,8 +25,6 @@
           <div class="mt-4 shadow-card rounded-lg bg-white px-4">
             <nested-draggable
               v-model="elements"
-              @clicked="(uuid) => (selected = uuid)"
-              :selectedItem="selected"
               @handleDelete="handleDelete"
               :disabled="loading"
             />
@@ -46,46 +44,24 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  reactive,
-  toRefs,
-  computed,
-  onMounted,
-  WritableComputedRef,
-} from "vue";
+import { defineComponent, reactive, toRefs, onMounted } from "vue";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/actions";
-import { Item, Type } from "@/store/state";
-import { MutationType } from "@/store/mutations";
-
-// import draggable from "vuedraggable";
 import NestedDraggable from "@/components/nestedDraggable.vue";
+import { useForm } from "@/hooks";
 
 export default defineComponent({
   name: "FormBuilder",
-  props: {
-    // id: { type: Number, required: true }
-  },
   components: {
     NestedDraggable,
   },
   setup() {
     const store = useStore();
+    const { model, loading, elements, addNewItem, handleDelete } = useForm();
+
     const state = reactive({
       selected: null,
       sended: false,
-    });
-    const model = computed(() => store.getters.getResponseModel);
-    const loading = computed(() => store.getters.loading);
-    const elements: WritableComputedRef<Array<Item>> = computed({
-      get(): Array<Item> {
-        return store.getters.getFormItems || [];
-      },
-      set(value): void {
-        if (state.sended) state.sended = false;
-        store.commit(MutationType.UpdateFormItems, value);
-      },
     });
 
     const fetchForm = () => {
@@ -97,28 +73,18 @@ export default defineComponent({
       store.dispatch(ActionTypes.SubmitForm, store.getters.getResponseModel);
     };
 
-    const addNewItem = (type: Type) => {
-      state.sended = false;
-      store.commit(MutationType.AddItem, type);
-    };
-
-    const handleDelete = (uuid: string) => {
-      state.sended = false;
-      store.commit(MutationType.DeleteItem, uuid);
-    };
-
     onMounted(() => {
       fetchForm();
     });
 
     return {
       ...toRefs(state),
-      onSubmit,
+      model,
+      loading,
+      elements,
       addNewItem,
       handleDelete,
-      model,
-      elements,
-      loading,
+      onSubmit,
     };
   },
 });
