@@ -9,6 +9,7 @@ export enum MutationType {
   UpdateFormItems = "UPDATE_FORM_ITEMS",
   AddItem = "ADD_NEW_ITEM",
   DeleteItem = "DELETE_ITEM",
+  UpdateAnswer = "UPDATE_ANSWER",
 }
 
 //mutations.ts
@@ -18,6 +19,7 @@ export type Mutations = {
   [MutationType.UpdateFormItems](state: State, payload: Array<Item>): void;
   [MutationType.AddItem](state: State, type: Type): void;
   [MutationType.DeleteItem](state: State, uuid: string): void;
+  [MutationType.UpdateAnswer](state: State, obj: { uuid: string }): void;
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -51,5 +53,23 @@ export const mutations: MutationTree<State> & Mutations = {
       state.responseModel.checklist.form.items,
       uuid
     );
+  },
+  [MutationType.UpdateAnswer](state, obj) {
+    const nodes = state.responseModel.checklist.form.items;
+    const findNode = (nodes: Array<Item>, uuid: string) =>{
+      for (let i = 0; i < nodes.length; i++) {
+        if (nodes[i].uuid === uuid) {
+          nodes[i] = { ...nodes[i], ...obj };
+          break;
+        }
+        if (nodes[i].items) {
+          findNode(nodes[i].items, uuid);
+        }
+      }
+    }
+
+    findNode(nodes, obj.uuid);
+
+    state.responseModel.checklist.form.items = nodes;
   },
 };

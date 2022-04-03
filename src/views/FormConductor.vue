@@ -8,7 +8,7 @@
         <div v-if="elements.length > 0">
           <div class="mt-4 px-4 py-1 shadow-card rounded-lg bg-white text-left">
             <template v-for="element in elements" :key="element.uuid">
-              <item-wrapper :element="element" />
+              <item-wrapper :element="element" @changed="answerChanged" />
             </template>
           </div>
           <button
@@ -26,17 +26,13 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  reactive,
-  toRefs,
-  onMounted,
-} from "vue";
+import { defineComponent, reactive, toRefs, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { ActionTypes } from "@/store/actions";
 import ItemWrapper from "@/components/form/itemWrapper.vue";
 import { useForm } from "@/hooks";
 import { useStore } from "@/store";
+import { MutationType } from "@/store/mutations";
 
 export default defineComponent({
   name: "FormConductor",
@@ -63,11 +59,26 @@ export default defineComponent({
       );
     };
 
+    const answerChanged = (val: {
+      uuid: string;
+      score: number;
+      negative: boolean;
+    }) => {
+      store.commit(MutationType.UpdateAnswer, val);
+    };
+
     onMounted(() => {
       fetchForm();
     });
 
-    return { ...toRefs(state), onSubmit, model, elements, loading };
+    return {
+      ...toRefs(state),
+      onSubmit,
+      answerChanged,
+      model,
+      elements,
+      loading,
+    };
   },
 });
 </script>

@@ -1,8 +1,13 @@
 <template>
   <div class="my-4">
-    <component :is="component" :element="element" />
+    <component
+      :is="component"
+      :element="element"
+      @changed="(val) => $emit('changed', val)"
+    />
     <template v-for="el in element.items" :key="el.uuid">
-      <item-wrapper :element="el" />
+      <item-wrapper :element="el" 
+      @changed="(val) => $emit('changed', val)"/>
     </template>
   </div>
 </template>

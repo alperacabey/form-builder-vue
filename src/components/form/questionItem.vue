@@ -4,12 +4,21 @@
     <template v-for="response in responses" :key="response.uuid">
       <button
         :class="[
-          'border-2 rounded-md mr-4 px-4',
+          'border rounded-md mr-4 px-4',
+          { 'ring-2': element.score === response.score },
           { 'bg-green text-green-dark': ColorTypes[response.color] == 'green' },
           { 'bg-red text-red-dark': ColorTypes[response.color] == 'red' },
           { 'bg-gray text-gray-dark': ColorTypes[response.color] == 'gray' },
         ]"
-        @click="() => {}"
+        @click="
+          () =>
+            $emit('changed', {
+              uuid: element.uuid,
+              score: response.score,
+              negative: response.negative,
+              responded: true
+            })
+        "
       >
         {{ response.title }}
       </button>
