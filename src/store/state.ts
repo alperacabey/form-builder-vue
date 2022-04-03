@@ -1,10 +1,10 @@
 export type Type = "form" | "page" | "question" | "section";
 
 export class Item {
-  title: string;
-  uuid: string;
-  type: Type;
-  items: Array<Item>;
+  title = "";
+  uuid = "";
+  type: Type = "question";
+  items: Array<Item> = [];
   params?: ResponseParams;
   required?: boolean;
   negative?: boolean;
@@ -13,13 +13,6 @@ export class Item {
   issues_allowed?: boolean;
   color?: string;
   responded?: boolean;
-  constructor(item: Item) {
-    this.title = item.title;
-    this.uuid = item.uuid;
-    this.type = item.type;
-    if (item.items) this.items = item.items;
-    else this.items = [];
-  }
 }
 
 type ResponseParams = {
@@ -61,12 +54,12 @@ export type RequestModel = {
 
 export type State = {
   loading: boolean;
-  responseModel: ResponseModel;
+  model: ResponseModel;
 };
 
 export const state: State = {
   loading: true,
-  responseModel: {
+  model: {
     checklist: {
       checklist_title: "",
       checklist_description: "",

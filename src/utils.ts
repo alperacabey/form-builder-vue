@@ -12,9 +12,7 @@ export const removeObjecFromArray = (nodes: Array<Item>, uuid: string) => {
       }
     }
   }
-
   findNode(nodes, uuid);
-
   return nodes;
 };
 
@@ -30,8 +28,20 @@ export const findTypeCount = (nodes: Array<Item>, type: Type) => {
       }
     }
   }
-
   findNode(nodes, type);
-
   return count;
+};
+
+export const isValidForm = (nodes: Array<Item>) => {
+  let isValid = true;
+  function findNode(nodes: Array<Item>) {
+    for (let i = 0; i < nodes.length; i++) {
+      if (!nodes[i].responded && nodes[i].type == 'question') isValid = false;
+      if (nodes[i].items) {
+        findNode(nodes[i].items);
+      }
+    }
+  }
+  findNode(nodes);
+  return isValid;
 };

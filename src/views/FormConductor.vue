@@ -14,7 +14,7 @@
           <button
             type="submit"
             class="btn-primary mt-4"
-            :disabled="loading || sended"
+            :disabled="loading || (sended && !isValid)"
             @click="onSubmit"
           >
             <span v-if="loading" class="loader right-4" />Submit
@@ -26,13 +26,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, onMounted } from "vue";
+import { defineComponent, reactive, toRefs, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import { ActionTypes } from "@/store/actions";
 import ItemWrapper from "@/components/form/itemWrapper.vue";
 import { useForm } from "@/hooks";
 import { useStore } from "@/store";
 import { MutationType } from "@/store/mutations";
+import { isValidForm } from "@/utils";
 
 export default defineComponent({
   name: "FormConductor",
@@ -42,10 +43,12 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const route = useRoute();
-    const { model, loading, elements } = useForm();
+    const { model, loading, elements, showMessage } = useForm();
     const state = reactive({
       sended: false,
     });
+
+    const isValid = computed(() => isValidForm(store.getters.getFormItems));
 
     const fetchForm = () => {
       store.dispatch(ActionTypes.FetchForm, route.params.id.toString());
@@ -53,10 +56,14 @@ export default defineComponent({
 
     const onSubmit = () => {
       state.sended = true;
-      store.dispatch(
-        ActionTypes.SubmitQuestionnaire,
-        store.getters.getResponseModel
-      );
+      if (isValid.value) {
+        store.dispatch(
+          ActionTypes.SubmitQuestionnaire,
+          store.getters.getResponseModel
+        );
+      } else {
+        showMessage("All field is required!", false);
+      }
     };
 
     const answerChanged = (val: {
@@ -78,6 +85,7 @@ export default defineComponent({
       model,
       elements,
       loading,
+      isValid,
     };
   },
 });

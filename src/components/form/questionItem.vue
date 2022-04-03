@@ -61,7 +61,7 @@ export default defineComponent({
 
     const responses = computed(
       () =>
-        store.state.responseModel.params.response_sets.find(
+        store.state.model.params.response_sets.find(
           (set) => set.uuid === props.element?.params?.response_set
         )?.responses
     );

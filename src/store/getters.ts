@@ -12,9 +12,9 @@ export const getters: GetterTree<State, State> & Getters = {
     return state.loading;
   },
   getResponseModel(state) {
-    return state.responseModel;
+    return state.model;
   },
   getFormItems(state) {
-    return state.responseModel.checklist.form?.items[0]?.items || [];
+    return state.model.checklist.form?.items[0]?.items || [];
   },
 };
