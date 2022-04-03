@@ -39,6 +39,11 @@ export const mutations: MutationTree<State> & Mutations = {
       uuid: uuid(),
       type,
       items: [],
+      params: { response_set: "1bf277e2-79fc-4d38-81b5-ca3c8ecbbb9d" },
+      notes_allowed: Math.random() < 0.5,
+      photos_allowed: Math.random() < 0.5,
+      issues_allowed: Math.random() < 0.5,
+      responded: false,
     });
   },
   [MutationType.DeleteItem](state, uuid) {

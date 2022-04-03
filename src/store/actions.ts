@@ -13,6 +13,7 @@ export enum ActionTypes {
   FetchForm = "FETCH_FORM",
   UpdateFormItems = "UPDATE_FORM_ITEMS",
   SubmitForm = "SUBMIT_FORM",
+  SubmitQuestionnaire = "SUBMIT_QUESTIONNAIRE"
 }
 
 type ActionAugments = Omit<ActionContext<State, State>, "commit"> & {
@@ -29,6 +30,10 @@ export type Actions = {
     payload: Array<Item>
   ): void;
   [ActionTypes.SubmitForm](
+    context: ActionAugments,
+    payload: ResponseModel
+  ): void;
+  [ActionTypes.SubmitQuestionnaire](
     context: ActionAugments,
     payload: ResponseModel
   ): void;
@@ -64,6 +69,18 @@ export const actions: ActionTree<State, State> & Actions = {
       const response: AxiosResponse = await formService.postForm(payload);
       if (response.status === 200)
         toast.success("Form submitted successfully!");
+    } catch {
+      toast.error("Unexpected error!");
+    }
+
+    commit(MutationType.SetLoading, false);
+  },
+  async [ActionTypes.SubmitQuestionnaire]({ commit }, payload) {
+    commit(MutationType.SetLoading, true);
+    try {
+      const response: AxiosResponse = await formService.postQuestionnaire(payload);
+      if (response.status === 200)
+        toast.success("Questionnaire submitted successfully!");
     } catch {
       toast.error("Unexpected error!");
     }

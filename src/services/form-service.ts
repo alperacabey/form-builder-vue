@@ -1,4 +1,4 @@
-import { ResponseModel } from "@/store/state";
+import { RequestModel } from "@/store/state";
 import axios, { AxiosInstance } from "axios";
 
 interface IFormService {
@@ -21,8 +21,12 @@ class FormService implements IFormService {
     return this.api.get(`/api/form?uuid=${uuid}`);
   }
 
-  postForm(params: ResponseModel) {
+  postForm(params: RequestModel) {
     return this.api.post("/api/form", params);
+  }
+
+  postQuestionnaire(params: RequestModel) {
+    return this.api.post("/api/questionnaire", params);
   }
 }
 

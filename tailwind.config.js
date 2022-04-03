@@ -24,7 +24,7 @@ module.exports = {
       borderColor: {
           'primary': '#D3D3D3',
           'secondary': 'rgba(0, 133, 255, 0.3)',
-          'danger': '#FF0000',
+  
       },
       placeholderColor: {
           'primary': '#D3D3D3',

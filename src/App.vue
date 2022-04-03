@@ -22,7 +22,6 @@ export default defineComponent({
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  height: calc(100vh - 44px);
 }
 
 nav {

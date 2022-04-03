@@ -1,8 +1,8 @@
 <template>
   <div class="bg-gray h-full p-10">
-    <div class="mx-24 flex justify-center">
+    <div class="flex justify-center">
       <div v-if="loading && !model.checklist.checklist_title" class="loader" />
-      <div v-else>
+      <div v-else class="w-full max-w-lg">
         <h2>{{ model.checklist.checklist_title }}</h2>
         <h3>{{ model.checklist.checklist_description }}</h3>
         <div class="flex justify-between mt-3">

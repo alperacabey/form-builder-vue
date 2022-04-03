@@ -34,6 +34,22 @@ export function makeServer({ environment = "development" } = {}) {
         },
         { timing: 3000 }
       );
+
+      this.post(
+        "/questionnaire",
+        (schema, request) => {
+          mockData = JSON.parse(request.requestBody);
+          return new Response(
+            200,
+            {},
+            {
+              success: true,
+              message: `Successfully added to ${mockResponse.checklist.checklist_title} checklist`,
+            }
+          );
+        },
+        { timing: 3000 }
+      );
     },
   });
 
