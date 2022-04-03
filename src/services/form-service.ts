@@ -14,19 +14,19 @@ class FormService implements IFormService {
   });
 
   getInitialForm() {
-    return this.api.get(`/api/form-builder`);
+    return this.api.get(`/form`);
   }
 
   getForm(uuid: string) {
-    return this.api.get(`/api/form?uuid=${uuid}`);
+    return this.api.get(`/form/${uuid}`);
   }
 
   postForm(params: RequestModel) {
-    return this.api.post("/api/form", params);
+    return this.api.post("/form", params);
   }
 
   postQuestionnaire(params: RequestModel) {
-    return this.api.post("/api/questionnaire", params);
+    return this.api.post("/questionnaire", params);
   }
 }
 

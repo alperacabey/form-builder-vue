@@ -7,14 +7,14 @@ export function makeServer({ environment = "development" } = {}) {
     environment,
 
     routes() {
-      this.namespace = "api";
+      this.namespace = "";
 
-      this.get("/form-builder", () => {
+      this.get("/form", () => {
         return new Response(200, {}, mockData);
       });
 
-      this.get("/form", (schema, request) => {
-        if (request.queryParams.uuid === mockData.checklist.form.uuid)
+      this.get("/form/:id", (schema, request) => {
+        if (request.params.id === mockData.checklist.form.uuid)
           return new Response(200, {}, mockData);
         else return new Response(404, {}, { message: "Not Found" });
       });
