@@ -1,0 +1,8 @@
+version: '1'
+services:
+  vue:
+    build: ./vue
+    image: form-builder-vue
+    container_name: "vue_app_container"
+    ports:
+      - "8080:8080"
