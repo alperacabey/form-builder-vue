@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, onMounted } from "vue";
+import { defineComponent, onMounted } from "vue";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/actions";
 import NestedDraggable from "@/components/nestedDraggable.vue";
@@ -57,19 +57,15 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const { model, loading, elements, addNewItem, handleDelete } = useForm();
+    const { sended, model, loading, elements, addNewItem, handleDelete } =
+      useForm();
 
-    const state = reactive({
-      selected: null,
-      sended: false,
-    });
-
-    const fetchForm = () => {
+const fetchForm = () => {
       store.dispatch(ActionTypes.FetchInitialForm);
     };
 
     const onSubmit = () => {
-      state.sended = true;
+      sended.value = true;
       store.dispatch(ActionTypes.SubmitForm, store.getters.getResponseModel);
     };
 
@@ -78,7 +74,7 @@ export default defineComponent({
     });
 
     return {
-      ...toRefs(state),
+      sended,
       model,
       loading,
       elements,
