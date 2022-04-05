@@ -29,7 +29,7 @@ export default {
               photos_allowed: true,
               issues_allowed: true,
               responded: false,
-              items: [],
+              
             },
             {
               title: "section 1",
@@ -57,7 +57,7 @@ export default {
                   photos_allowed: false,
                   issues_allowed: true,
                   responded: false,
-                  items: [],
+                  
                 },
                 {
                   uuid: "00331d70-b55a-49ed-b033-bb969c1ab79c",
@@ -77,7 +77,7 @@ export default {
                   photos_allowed: true,
                   issues_allowed: true,
                   responded: false,
-                  items: [],
+                  
                 },
                 {
                   title: "section 2",
@@ -105,7 +105,7 @@ export default {
                       photos_allowed: true,
                       issues_allowed: true,
                       responded: false,
-                      items: [],
+                      
                     },
                   ],
                 },
@@ -129,7 +129,7 @@ export default {
               photos_allowed: true,
               issues_allowed: false,
               responded: false,
-              items: [],
+              
             },
             {
               title: "section 3",
@@ -157,7 +157,7 @@ export default {
                   photos_allowed: true,
                   issues_allowed: true,
                   responded: false,
-                  items: [],
+                  
                 },
               ],
             },

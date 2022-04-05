@@ -27,17 +27,14 @@ export const mutations: MutationTree<State> & Mutations = {
     state.loading = value;
   },
   [MutationType.SetForm](state, payload) {
-    state.model = payload;
+    state.model = new ResponseModel(payload);
   },
   [MutationType.UpdateFormItems](state, payload) {
     state.model.checklist.form.items[0].items = payload;
   },
   [MutationType.AddItem](state, type) {
     state.model.checklist.form.items[0].items.push({
-      title:
-        type +
-        " " +
-        findTypeCount(state.model.checklist.form.items, type),
+      title: type + " " + findTypeCount(state.model.checklist.form.items, type),
       uuid: uuid(),
       type,
       items: [],
@@ -56,7 +53,7 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationType.UpdateAnswer](state, obj) {
     const nodes = state.model.checklist.form.items;
-    const findNode = (nodes: Array<Item>, uuid: string) =>{
+    const findNode = (nodes: Array<Item>, uuid: string) => {
       for (let i = 0; i < nodes.length; i++) {
         if (nodes[i].uuid === uuid) {
           nodes[i] = { ...nodes[i], ...obj };
@@ -66,7 +63,7 @@ export const mutations: MutationTree<State> & Mutations = {
           findNode(nodes[i].items, uuid);
         }
       }
-    }
+    };
 
     findNode(nodes, obj.uuid);
 
